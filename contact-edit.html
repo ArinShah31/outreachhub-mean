@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OutreachHub | Edit Contact</title>
+</head>
+
+<body>
+    <header>
+        <nav aria-label="Main"> <a href="home.html">Home</a> <a href="contacts-list.html">Contacts</a> <a
+                href="index.html">Logout</a> </nav>
+    </header>
+    <main>
+        <h1>Add / Update contact</h1>
+
+        <form action="contact-view.html" method="get">
+            <div>
+                <label for="name">Name</label>
+                <br />
+                <input id="name" name="name" required />
+            </div>
+
+            <div>
+                <label for="phone">Phone</label>
+                <br />
+                <input id="phone" name="phone" required />
+            </div>
+
+            <div>
+                <label for="tags">Tags (comma-separated)</label>
+                <br />
+                <input id="tags" name="tags" />
+            </div>
+
+            <div style="margin-top: 12px;">
+                <button type="submit">Save</button>
+                <a href="contacts-list.html">Cancel</a>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
