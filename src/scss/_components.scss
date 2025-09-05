@@ -1,0 +1,141 @@
+// src/scss/_components.scss
+@use "base";
+
+// Buttons
+.btn {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: base.$text;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+
+  &:hover {
+    background: #f8fafc;
+  }
+}
+
+.btn--primary {
+  background: base.$brand;
+  border-color: base.$brand;
+  color: #fff;
+
+  &:hover {
+    filter: brightness(0.96);
+  }
+}
+
+.btn--danger {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
+
+  &:hover {
+    filter: brightness(0.96);
+  }
+}
+
+// Cards
+.card {
+  background: #fff;
+  border: 1px solid base.$border;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+// Forms (login & contact edit)
+form {
+  display: grid;
+  gap: 12px;
+  max-width: 560px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid base.$border;
+  border-radius: 6px;
+  background: #fff;
+  color: base.$text;
+
+  &:focus {
+    outline: none;
+    border-color: base.$brand;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+}
+
+// Tables (home analytics tables & contacts list)
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid base.$border;
+
+  thead th {
+    background: #f1f5f9;
+    font-weight: 600;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    border-bottom: 1px solid base.$border;
+    text-align: left;
+    vertical-align: top;
+  }
+}
+
+// Toolbar row (contacts: add + pager)
+.toolbar {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+// Pagination (anchor-only)
+.pager {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+
+  a {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid base.$border;
+    background: #fff;
+    color: #111827;
+    text-decoration: none;
+
+    &.active {
+      background: base.$brand;
+      border-color: base.$brand;
+      color: #fff;
+    }
+
+    &:hover {
+      background: #f8fafc;
+    }
+
+  }
+}
+
+// Placeholder blocks for charts
+.placeholder {
+  height: 160px;
+  border: 1px dashed #c7d2fe;
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(45deg,
+      #eef2ff,
+      #eef2ff 10px,
+      #e5e7eb 10px,
+      #e5e7eb 20px);
+}

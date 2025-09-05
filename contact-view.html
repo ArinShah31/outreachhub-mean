@@ -5,17 +5,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>OutreachHub | View Contact</title>
+    <link rel="stylesheet" href="public/css/main.css" />
 </head>
 
 <body>
     <header>
-        <nav aria-label="Main"> <a href="home.html">Home</a> <a href="contacts-list.html">Contacts</a> <a
-                href="index.html">Logout</a> </nav>
+        <nav aria-label="Main">
+            <div class="brand"> <span class="brand__name">OutreachHub</span> </div>
+            <div class="menu"> <a href="home.html">Home</a> <a href="contacts-list.html">Contacts</a> <a
+                    href="index.html" class="btn">Logout</a> </div>
+        </nav>
     </header>
     <main>
-        <h1>Contact details</h1>
+        <section class="card">
+            <h1>Contact details</h1>
 
-        <section>
             <p>
                 <strong>Name:</strong>
                 Contact X
@@ -28,14 +32,14 @@
                 <strong>Tags:</strong>
                 prospect
             </p>
-        </section>
 
-        <p>
-            <a href="contact-edit.html">Edit</a>
-            |
-            <a href="contacts-list.html">Back to list</a>
-        </p>
+            <p style="margin-top:12px;">
+                <a href="contact-edit.html" class="btn">Edit</a>
+                <a href="contacts-list.html" class="btn">Back to list</a>
+            </p>
+        </section>
     </main>
+
 </body>
 
 </html>

@@ -1,0 +1,78 @@
+// src/scss/_layout.scss
+@use "base";
+
+// Header & nav
+header {
+  background: #fff;
+  border-bottom: 1px solid base.$border;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+nav {
+  @extend .container;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &__name {
+      font-weight: 700;
+    }
+  }
+
+  .menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+
+    a,
+    button {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    a.active {
+      border-color: base.$brand;
+      color: base.$brand;
+      text-decoration: none;
+    }
+  }
+}
+
+main {
+  @extend .container;
+  padding: 16px 0 24px;
+}
+
+// Responsive grid helper for cards/sections
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+
+  @media (min-width: base.$bp-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: base.$bp-lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Sections spacing
+section {
+  margin: 16px 0 24px;
+}

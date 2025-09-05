@@ -1,0 +1,24 @@
+{
+"name": "outreachhub-mean",
+"version": "1.0.0",
+"description": "OutreachHub (MEAN) Multi-tenant Platform Overview",
+"main": "index.js",
+"scripts": {
+"sass:dev": "sass --watch --style=expanded src/scss:public/css",
+"sass:build": "sass --no-source-map --style=compressed src/scss:public/css"
+},
+"repository": {
+"type": "git",
+"url": "git+https://github.com/ArinShah31/outreachhub-mean.git"
+},
+"keywords": [],
+"author": "",
+"license": "ISC",
+"bugs": {
+"url": "https://github.com/ArinShah31/outreachhub-mean/issues"
+},
+"homepage": "https://github.com/ArinShah31/outreachhub-mean#readme",
+"devDependencies": {
+"sass": "^1.92.0"
+}
+}

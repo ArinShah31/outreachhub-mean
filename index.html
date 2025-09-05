@@ -5,33 +5,38 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>OutreachHub | Login</title>
+    <link rel="stylesheet" href="public/css/main.css" />
 </head>
 
 <body>
     <header>
-        <nav aria-label="Main"> <a href="index.html">Login</a> </nav>
+        <nav aria-label="Main">
+            <div class="brand"> <span class="brand__name">OutreachHub</span> </div>
+            <div class="menu"> <a href="index.html" class="active">Login</a> </div>
+        </nav>
     </header>
     <main>
-        <h1>Login</h1>
-        <form action="home.html" method="get">
-            <div>
-                <label for="email">Email</label>
-                <br />
-                <input id="email" name="email" type="email" required />
-            </div>
+        <section class="card">
+            <h1>Login</h1>
 
-            <div>
-                <label for="password">Password</label>
-                <br />
-                <input id="password" name="password" type="password" required />
-            </div>
+            <form action="home.html" method="get">
+                <div>
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" required />
+                </div>
 
-            <div style="margin-top: 12px;">
-                <button type="submit">Login</button>
-            </div>
-        </form>
+                <div>
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" required />
+                </div>
+
+                <div style="margin-top: 12px;">
+                    <button type="submit" class="btn btn--primary">Login</button>
+                </div>
+            </form>
+        </section>
     </main>
+
 </body>
 
 </html>
-    

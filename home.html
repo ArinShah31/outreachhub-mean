@@ -5,15 +5,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>OutreachHub | Home</title>
+    <link rel="stylesheet" href="public/css/main.css" />
 </head>
 
 <body>
     <header>
-        <nav aria-label="Main"> <a href="home.html">Home</a> <a href="contacts-list.html">Contacts</a> <a
-                href="index.html">Logout</a> </nav>
+        <nav aria-label="Main">
+            <div class="brand"> <span class="brand__name">OutreachHub</span> </div>
+            <div class="menu"> <a href="home.html" class="active">Home</a> <a href="contacts-list.html">Contacts</a> <a
+                    href="index.html" class="btn">Logout</a> </div>
+        </nav>
     </header>
+
     <main>
-        <section>
+        <section class="card">
             <h1>Welcome to OutreachHub</h1>
             <p>Multi-tenant workspace portal prototype.</p>
             <img src="https://via.placeholder.com/320x200" alt="Branding" />
@@ -22,20 +27,25 @@
         <section>
             <h2>Analytics (placeholders)</h2>
 
-            <h3>Campaigns per day</h3>
-            <img src="https://via.placeholder.com/600x160?text=Chart+Placeholder"
-                alt="Campaigns per day chart placeholder" />
+            <div class="grid">
+                <div class="card">
+                    <h3>Campaigns per day</h3>
+                    <div class="placeholder"></div>
+                </div>
 
-            <h3>Messages per type per day</h3>
-            <img src="https://via.placeholder.com/600x160?text=Chart+Placeholder"
-                alt="Messages per type per day chart placeholder" />
+                <div class="card">
+                    <h3>Messages per type per day</h3>
+                    <div class="placeholder"></div>
+                </div>
 
-            <h3>Contacts reached per day</h3>
-            <img src="https://via.placeholder.com/600x160?text=Chart+Placeholder"
-                alt="Contacts reached per day chart placeholder" />
+                <div class="card">
+                    <h3>Contacts reached per day</h3>
+                    <div class="placeholder"></div>
+                </div>
+            </div>
         </section>
 
-        <section>
+        <section class="card">
             <h2>Recent 5 campaigns</h2>
             <table>
                 <thead>
@@ -75,7 +85,7 @@
             </table>
         </section>
 
-        <section>
+        <section class="card">
             <h2>Top 5 tags</h2>
             <table>
                 <thead>
@@ -109,6 +119,7 @@
             </table>
         </section>
     </main>
+
 </body>
 
 </html>
