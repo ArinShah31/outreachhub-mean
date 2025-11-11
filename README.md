@@ -1,5 +1,4 @@
 # OutreachHub (MEAN) Multi-tenant Platform
-# OutreachHub (MEAN) Multi-tenant Platform
 OutreachHub (MEAN) Multi-tenant Platform
 Overview
 
