@@ -1,20 +1,31 @@
 async function getContacts() {
   let contact;
-  await fetch("http://localhost:3000/Contact")
+  const token = localStorage.getItem('token');
+  await fetch("http://localhost:3000/contacts", {
+    headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+  })
     .then((res) => res.json())
-    .then((res) => (contact = res));
+    .then((res) => {
+      // API returns paginated response: { data: [...], total, page, ... }
+      // Extract the data array if present, otherwise assume it's already an array
+      contact = Array.isArray(res) ? res : (res.data || []);
+      console.log('getContacts response:', res, 'extracted:', contact);
+    });
   return contact;
 }
 
 async function saveContact(contact) {
-  if (contact.id !== "") {
+  console.log('saveContact called with:', contact);
+  if (contact.id) {
+    // UPDATE: id exists, so this is an update operation
+    const token = localStorage.getItem('token');
     await fetch(
-      "http:///Contact/" + contact.id,
+      "http://localhost:3000/contacts/" + contact.id,
       {
         method: "PUT",
-        headers: {
+        headers: Object.assign({
           "Content-Type": "application/json",
-        },
+        }, token ? { 'Authorization': 'Bearer ' + token } : {}),
         body: JSON.stringify(contact),
       }
     )
@@ -28,19 +39,32 @@ async function saveContact(contact) {
             type: "info",
           })
         );
-        window.location.href = `contacts-details.html?id=${res.id}`;
+        window.location.href = `contact-view.html?id=${res.id}`;
+      })
+      .catch((error) => {
+        console.error('Error updating contact:', error);
+        showDialog('Error updating contact: ' + error.message, 'error');
       });
   } else {
-    await fetch("http://localhost:3000/Contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(contact),
-    })
-      .then((res) => res.json())
+      // CREATE: id does not exist, so this is a create operation
+      const token = localStorage.getItem('token');
+      console.log('Creating new contact, token:', token ? 'present' : 'missing');
+      await fetch("http://localhost:3000/contacts", {
+        method: "POST",
+        headers: Object.assign({
+          "Content-Type": "application/json",
+        }, token ? { 'Authorization': 'Bearer ' + token } : {}),
+        body: JSON.stringify(contact),
+      })
       .then((res) => {
-        console.log("Record Inserted");
+        console.log('Create response status:', res.status);
+        if (!res.ok) {
+          throw new Error('API returned status ' + res.status);
+        }
+        return res.json();
+      })
+      .then((res) => {
+        console.log("Record Inserted", res);
         localStorage.setItem(
           "dialogMessage",
           JSON.stringify({
@@ -48,15 +72,23 @@ async function saveContact(contact) {
             type: "success",
           })
         );
-        window.location.href = `contacts-details.html?id=${res.id}`;
+        // After creating a contact, redirect to contacts list so the new contact is loaded
+        window.location.href = 'contacts-list.html';
+      })
+      .catch((error) => {
+        console.error('Error creating contact:', error);
+        showDialog('Error creating contact: ' + error.message, 'error');
       });
   }
 }
 
 async function getContactById(id) {
   let contact;
-  await fetch("http://localhost:3000/Contact/" + id)
-    .then((res) => res.json())
+    const token = localStorage.getItem('token');
+    await fetch("http://localhost:3000/contacts/" + id, {
+      headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+    })
+      .then((res) => res.json())
     .then((res) => {
       contact = res;
     });
@@ -64,8 +96,10 @@ async function getContactById(id) {
 }
 
 async function deleteContact(id) {
-  await fetch("http://localhost:3000/Contact/" + id, {
+  const token = localStorage.getItem('token');
+  await fetch("http://localhost:3000/contacts/" + id, {
     method: "DELETE",
+    headers: token ? { 'Authorization': 'Bearer ' + token } : {}
   }).then((res) => {
     if (!res.ok) {
       localStorage.setItem(

@@ -12,7 +12,7 @@
     <header>
         <nav aria-label="Main">
             <div class="brand"> <span class="brand__name">OutreachHub</span> </div>
-            <div class="menu"> <a href="home.html">Home</a> <a href="contacts-list.html">Contacts</a> <a
+            <div class="menu"> <a href="home.html">Home</a> <a href="contacts-list.html">Contacts</a> <span id="username" style="color: #666; margin: 0 16px;"></span> <a
                     href="index.html" class="btn">Logout</a> </div>
         </nav>
     </header>
@@ -20,7 +20,7 @@
         <section class="card">
             <h1>Add / Update contact</h1>
 
-            <form action="contact-view.html" method="get">
+            <form>
                 <div>
                     <label for="name">Name</label>
                     <input id="name" name="name" required />
@@ -43,7 +43,10 @@
             </form>
         </section>
     </main>
- <script src="public/js/app.js" defer></script>
+ <script src="public/js/dialog.js" defer></script>
+ <script src="public/js/contact-edit-guard.js" defer></script>
+ <script src="public/js/storage.js" defer></script>
+ <script src="public/js/contact-form.js" defer></script>
 </body>
 
 </html>

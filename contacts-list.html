@@ -12,7 +12,7 @@
     <header>
         <nav aria-label="Main">
             <div class="brand"> <span class="brand__name">OutreachHub</span> </div>
-            <div class="menu"> <a href="home.html">Home</a> <a href="contacts-list.html" class="active">Contacts</a> <a
+            <div class="menu"> <a href="home.html">Home</a> <a href="contacts-list.html" class="active">Contacts</a> <span id="username" style="color: #666; margin: 0 16px;"></span> <a
                     href="index.html" class="btn">Logout</a> </div>
         </nav>
     </header>
@@ -21,7 +21,7 @@
             <h1>Contacts</h1>
 
             <div class="toolbar">
-                <a href="contact-edit.html" class="btn btn--primary">Add contact</a>
+                <a href="contact-edit.html" class="btn btn--primary" id="addContactBtn">Add contact</a>
             </div>
 
             <table>
@@ -33,69 +33,19 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Contact 1</td>
-                        <td>+91-90000111</td>
-                        <td>prospect</td>
-                        <td>
-                            <a href="contact-view.html" class="btn">View</a>
-                            <a href="contact-edit.html" class="btn">Edit</a>
-                            <a href="contacts-list.html" class="btn btn--danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Contact 2</td>
-                        <td>+91-90000112</td>
-                        <td>lead, beta</td>
-                        <td>
-                            <a href="contact-view.html" class="btn">View</a>
-                            <a href="contact-edit.html" class="btn">Edit</a>
-                            <a href="contacts-list.html" class="btn btn--danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Contact 3</td>
-                        <td>+91-90000113</td>
-                        <td>prospect</td>
-                        <td>
-                            <a href="contact-view.html" class="btn">View</a>
-                            <a href="contact-edit.html" class="btn">Edit</a>
-                            <a href="contacts-list.html" class="btn btn--danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Contact 4</td>
-                        <td>+91-90000114</td>
-                        <td>customer</td>
-                        <td>
-                            <a href="contact-view.html" class="btn">View</a>
-                            <a href="contact-edit.html" class="btn">Edit</a>
-                            <a href="contacts-list.html" class="btn btn--danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Contact 5</td>
-                        <td>+91-90000115</td>
-                        <td>dormant</td>
-                        <td>
-                            <a href="contact-view.html" class="btn">View</a>
-                            <a href="contact-edit.html" class="btn">Edit</a>
-                            <a href="contacts-list.html" class="btn btn--danger">Delete</a>
-                        </td>
-                    </tr>
+                <tbody id="contactsTableBody">
                 </tbody>
             </table>
 
-            <nav aria-label="Pagination" class="pager" style="margin-top:12px">
-                <a href="contacts-list.html" class="active">1</a>
-                <a href="contacts-list.html">2</a>
-                <a href="contacts-list.html">3</a>
-                <a href="contacts-list.html">Next »</a>
+            <nav aria-label="Pagination" class="pager" id="paginationNav" style="margin-top:12px">
             </nav>
         </section>
     </main>
- <script src="public/js/app.js" defer></script>
+ <script src="public/js/dialog.js" defer></script>
+ <script src="public/js/storage.js" defer></script>
+ <script src="public/js/pagination.js" defer></script>
+ <script src="public/js/contacts-loader.js" defer></script>
+ <script src="public/js/index.js" defer></script>
 </body>
 
 </html>
