@@ -14,13 +14,13 @@ function renderPaginatedContacts(contacts, page = 1, perPage = 5) {
     const tr = document.createElement("tr");
     
     let actionsHTML = `
-      <a href="contact-view.html?id=${contact.id}" class="btn">View</a>
+      <a href="contact-view.html?id=${contact.id || contact._id}" class="btn">View</a>
     `;
     
     if (userRole === 'editor') {
       actionsHTML += `
-        <a href="contact-edit.html?id=${contact.id}" class="btn">Edit</a>
-        <button class="btn btn--danger" onclick="confirmDelete('${contact.id}')">Delete</button>
+        <a href="contact-edit.html?id=${contact.id || contact._id}" class="btn">Edit</a>
+        <button class="btn btn--danger" onclick="confirmDelete('${contact.id || contact._id}')">Delete</button>
       `;
     } else if (userRole === 'viewer') {
       // Viewer can only view

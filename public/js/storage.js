@@ -1,122 +1,138 @@
+// Updated for NestJS backend (no /api prefix)
+const API_BASE = 'http://localhost:3000';  // Base URL for all API calls
+
+// Get all contacts
 async function getContacts() {
-  let contact;
+  let contacts = [];
   const token = localStorage.getItem('token');
-  await fetch("http://localhost:3000/contacts", {
-    headers: token ? { 'Authorization': 'Bearer ' + token } : {}
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      // API returns paginated response: { data: [...], total, page, ... }
-      // Extract the data array if present, otherwise assume it's already an array
-      contact = Array.isArray(res) ? res : (res.data || []);
-      console.log('getContacts response:', res, 'extracted:', contact);
+
+  try {
+    const response = await fetch(`${API_BASE}/contacts`, {
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {}
     });
-  return contact;
+
+    if (!response.ok) throw new Error('Failed to fetch contacts');
+    
+    const data = await response.json();
+    contacts = Array.isArray(data) ? data : data.data || [];
+    console.log('getContacts response:', data, 'extracted:', contacts);
+  } catch (error) {
+    console.error('Error fetching contacts:', error);
+  }
+
+  return contacts;
 }
 
+// Save or update contact
 async function saveContact(contact) {
   console.log('saveContact called with:', contact);
-  if (contact.id) {
-    // UPDATE: id exists, so this is an update operation
-    const token = localStorage.getItem('token');
-    await fetch(
-      "http://localhost:3000/contacts/" + contact.id,
-      {
-        method: "PUT",
-        headers: Object.assign({
-          "Content-Type": "application/json",
-        }, token ? { 'Authorization': 'Bearer ' + token } : {}),
-        body: JSON.stringify(contact),
-      }
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("Record Updated");
-        localStorage.setItem(
-          "dialogMessage",
-          JSON.stringify({
-            text: "Contact Updated successful!",
-            type: "info",
-          })
-        );
-        window.location.href = `contact-view.html?id=${res.id}`;
+  const token = localStorage.getItem('token');
+  // Support both `id` and `_id` from different API shapes
+  const resourceId = contact.id || contact._id;
+  const isUpdate = !!resourceId;
+  const url = isUpdate
+    ? `${API_BASE}/contacts/${resourceId}`
+    : `${API_BASE}/contacts`;
+  const method = isUpdate ? 'PUT' : 'POST';
+
+  // Don't send id/_id in the request body for updates
+  const payload = { ...contact };
+  if (payload.id) delete payload.id;
+  if (payload._id) delete payload._id;
+
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { 'Authorization': `Bearer ${token}` })
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || 'API error');
+    }
+
+    const result = await response.json();
+    console.log(isUpdate ? 'Contact Updated' : 'Contact Created', result);
+
+    localStorage.setItem(
+      "dialogMessage",
+      JSON.stringify({
+        text: isUpdate ? "Contact Updated successfully!" : "Contact added successfully!",
+        type: "success"
       })
-      .catch((error) => {
-        console.error('Error updating contact:', error);
-        showDialog('Error updating contact: ' + error.message, 'error');
-      });
-  } else {
-      // CREATE: id does not exist, so this is a create operation
-      const token = localStorage.getItem('token');
-      console.log('Creating new contact, token:', token ? 'present' : 'missing');
-      await fetch("http://localhost:3000/contacts", {
-        method: "POST",
-        headers: Object.assign({
-          "Content-Type": "application/json",
-        }, token ? { 'Authorization': 'Bearer ' + token } : {}),
-        body: JSON.stringify(contact),
-      })
-      .then((res) => {
-        console.log('Create response status:', res.status);
-        if (!res.ok) {
-          throw new Error('API returned status ' + res.status);
-        }
-        return res.json();
-      })
-      .then((res) => {
-        console.log("Record Inserted", res);
-        localStorage.setItem(
-          "dialogMessage",
-          JSON.stringify({
-            text: "Contact Inserted successful!",
-            type: "success",
-          })
-        );
-        // After creating a contact, redirect to contacts list so the new contact is loaded
-        window.location.href = 'contacts-list.html';
-      })
-      .catch((error) => {
-        console.error('Error creating contact:', error);
-        showDialog('Error creating contact: ' + error.message, 'error');
-      });
+    );
+
+    // Redirect after success
+    if (isUpdate) {
+      window.location.href = `contact-view.html?id=${result.id || resourceId}`;
+    } else {
+      window.location.href = 'contacts-list.html';
+    }
+  } catch (error) {
+    console.error(`Error ${isUpdate ? 'updating' : 'creating'} contact:`, error);
+    showDialog(`Error: ${error.message}`, 'error');
   }
 }
 
+// Get single contact by ID
 async function getContactById(id) {
-  let contact;
-    const token = localStorage.getItem('token');
-    await fetch("http://localhost:3000/contacts/" + id, {
-      headers: token ? { 'Authorization': 'Bearer ' + token } : {}
-    })
-      .then((res) => res.json())
-    .then((res) => {
-      contact = res;
+  let contact = null;
+  const token = localStorage.getItem('token');
+
+  try {
+    const response = await fetch(`${API_BASE}/contacts/${id}`, {
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {}
     });
+
+    if (!response.ok) throw new Error('Failed to fetch contact');
+    
+    contact = await response.json();
+  } catch (error) {
+    console.error('Error fetching contact by ID:', error);
+  }
+
   return contact;
 }
 
+// Delete contact
 async function deleteContact(id) {
+  if (!id || id === 'undefined' || id === 'null') {
+    showDialog('Invalid contact ID — cannot delete', 'error');
+    return;
+  }
+
   const token = localStorage.getItem('token');
-  await fetch("http://localhost:3000/contacts/" + id, {
-    method: "DELETE",
-    headers: token ? { 'Authorization': 'Bearer ' + token } : {}
-  }).then((res) => {
-    if (!res.ok) {
-      localStorage.setItem(
-        "dialogMessage",
-        JSON.stringify({
-          text: "Something went wrong",
-          type: "warning",
-        })
-      );
-    } else {
-      localStorage.setItem(
-        "dialogMessage",
-        JSON.stringify({
-          text: "Contact Deleted successful!",
-          type: "success",
-        })
-      );
+
+  try {
+    const response = await fetch(`${API_BASE}/contacts/${id}`, {
+      method: 'DELETE',
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || 'Failed to delete');
     }
-  });
+
+    localStorage.setItem(
+      "dialogMessage",
+      JSON.stringify({
+        text: "Contact deleted successfully!",
+        type: "success"
+      })
+    );
+  } catch (error) {
+    console.error('Delete error:', error);
+    localStorage.setItem(
+      "dialogMessage",
+      JSON.stringify({
+        text: "Failed to delete contact: " + error.message,
+        type: "error"
+      })
+    );
+  }
 }
